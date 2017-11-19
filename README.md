@@ -10,7 +10,7 @@ Files in the `gst` and `src` directories are taken from [Clementine](https://www
 ## Requirements
 
 * FFTW 3
-* GStreamer 1
+* GStreamer 1 base plugins development files
 * Meson (for building)
 
 
