@@ -10,8 +10,15 @@ Files in the `gst` and `src` directories are taken from [Clementine](https://www
 ## Requirements
 
 * FFTW 3
-* GStreamer 1 base plugins development files
-* Meson (for building)
+* GStreamer 1 + base plugins
+
+For building:
+
+* Development files for the above
+* C++ compiler
+* Meson. If your OS doesn't have a package for this, you can install it through pip (requires Python 3).
+* pkgconf or pkg-config
+* Ninja
 
 
 ## Building
