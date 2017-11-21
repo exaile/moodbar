@@ -1,5 +1,6 @@
 project('moodbar', 'cpp',
   version : '0.0.1',
+  license : 'GPL3+',
 )
 
 dep_gstreamer = dependency('gstreamer-1.0')
