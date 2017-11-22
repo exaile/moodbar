@@ -36,7 +36,7 @@ using GFileOutputStreamH =
 
 int main(int argc, char* argv[]) {
   if (argc != 4 or argv[1] != "-o"s) {
-    std::cerr << "Syntax: " << (argc > 0 ? argv[0] : "moodbar")
+    std::cerr << "Usage: " << (argc > 0 ? argv[0] : "moodbar")
               << " -o OUTPUT INPUT" << std::endl;
     return 1;
   }
