@@ -10,7 +10,8 @@ Files in the `gst` and `src` directories are taken from [Clementine](https://www
 ## Requirements
 
 * FFTW 3
-* GStreamer 1 + base plugins
+* GStreamer 1
+  * GStreamer Base Plugins
 
 For building:
 
@@ -20,18 +21,32 @@ For building:
 * pkgconf or pkg-config
 * Ninja
 
+At runtime you may also need other GStreamer plugin packages to read your audio files.
+For example, to process MP3 files you may have to install GStreamer Ugly Plugins.
 
-## Building
+
+## Building & installing
 
 ```sh
 meson --buildtype=release build/
 cd build/
 ninja
+sudo ninja install
 ```
 
-The output is a single `moodbar` executable.
+You can add `-Db_lto=true` to the `meson` call to produce slightly more efficient code.
 
-If you are creating an OS package, use `--buildtype=plain` so you have full control over build flags through the `CXXFLAGS` and `LDFLAGS` environment variables.
+
+### For packagers
+
+Building with custom flags and prefix, and staging to destdir:
+
+```sh
+CXXFLAGS=... LDFLAGS=... meson --buildtype=plain --prefix=... builddir
+ninja -C builddir
+DESTDIR=... ninja -C builddir install
+```
+
 See the [Meson documentation](http://mesonbuild.com/Quick-guide.html#using-meson-as-a-distro-packager) for more info.
 
 
