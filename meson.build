@@ -36,4 +36,5 @@ moodbar_exe = executable('moodbar',
     dependency('gio-2.0'),
     dep_gstreamer,
   ],
+  install : true,
 )
