@@ -1,0 +1,11 @@
+sudo: required
+language: generic
+services:
+  - docker
+env:
+  - IMAGE=sjohannes/docker-moodbar-test-deps
+before_install:
+  - docker pull $IMAGE
+script:
+  - docker run --rm -v "$(pwd):/src" $IMAGE
+      sh -c "meson /src /build && ninja -C /build"
