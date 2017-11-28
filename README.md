@@ -42,9 +42,9 @@ You can add `-Db_lto=true` to the `meson` call to produce slightly more efficien
 Building with custom flags and prefix, and staging to destdir:
 
 ```sh
-CXXFLAGS=... LDFLAGS=... meson --buildtype=plain --prefix=... builddir
+env CXXFLAGS=... LDFLAGS=... meson --buildtype=plain --prefix=... builddir
 ninja -C builddir
-DESTDIR=... ninja -C builddir install
+env DESTDIR=... ninja -C builddir install
 ```
 
 See the [Meson documentation](http://mesonbuild.com/Quick-guide.html#using-meson-as-a-distro-packager) for more info.
