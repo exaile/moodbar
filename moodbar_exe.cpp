@@ -16,6 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "moodbar-config.h"
 #include "moodbar.h"
 
 #include <gio/gio.h>
@@ -24,6 +25,7 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <ostream>
 #include <string>
 
 using namespace std::string_literals;
@@ -34,10 +36,28 @@ using GFileH = std::unique_ptr<GFile, decltype(&g_object_unref)>;
 using GFileOutputStreamH =
     std::unique_ptr<GFileOutputStream, decltype(&g_object_unref)>;
 
+namespace {
+void printUsage(std::ostream& stream, const char* exe) {
+  stream << "Usage: " << exe << " -o OUTPUT INPUT" << std::endl;
+}
+}  // namespace
+
 int main(int argc, char* argv[]) {
-  if (argc != 4 or argv[1] != "-o"s) {
-    std::cerr << "Usage: " << (argc > 0 ? argv[0] : "moodbar")
-              << " -o OUTPUT INPUT" << std::endl;
+  bool isCorrectUsage = false;
+  if (argc == 2) {
+    std::string argv1 = argv[1];
+    if (argv1 == "--version") {
+      std::cout << "moodbar " MOODBAR_VERSION_STR << std::endl;
+      return 0;
+    } else if (argv1 == "--help") {
+      printUsage(std::cout, argv[0]);
+      return 0;
+    }
+  } else if (argc == 4 and argv[1] == "-o"s) {
+    isCorrectUsage = true;
+  }
+  if (not isCorrectUsage) {
+    printUsage(std::cerr, (argc > 0 ? argv[0] : "moodbar"));
     return 1;
   }
 

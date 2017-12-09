@@ -4,6 +4,10 @@ project('moodbar', 'cpp',
   default_options : 'cpp_std=c++14',
 )
 
+conf = configuration_data()
+conf.set_quoted('MOODBAR_VERSION_STR', meson.project_version())
+configure_file(output : 'moodbar-config.h', configuration : conf)
+
 dep_gstreamer = dependency('gstreamer-1.0')
 
 gstfastspectrum = static_library('gstfastspectrum',
