@@ -3,7 +3,7 @@ language: generic
 services:
   - docker
 env:
-  - IMAGE=sjohannes/docker-moodbar-test-deps
+  - IMAGE=sjohannes/moodbar-test-deps
 before_install:
   - docker pull $IMAGE
 script:
