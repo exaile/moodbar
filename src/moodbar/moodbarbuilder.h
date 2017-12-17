@@ -18,6 +18,7 @@
 #ifndef MOODBARBUILDER_H
 #define MOODBARBUILDER_H
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
@@ -26,8 +27,8 @@ class MoodbarBuilder {
   MoodbarBuilder();
 
   void Init(int bands, int rate_hz);
-  void AddFrame(const double* magnitudes, int size);
-  std::vector<uint8_t> Finish(int width);
+  void AddFrame(const double* magnitudes, std::size_t size);
+  std::vector<std::uint8_t> Finish(int width);
 
  private:
   struct Rgb {

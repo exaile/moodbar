@@ -38,7 +38,7 @@ class MoodbarPipeline {
   static bool IsAvailable();
 
   bool success() const { return success_; }
-  const std::vector<uint8_t>& data() const { return data_; }
+  const std::vector<std::uint8_t>& data() const { return data_; }
 
   void Start();
 
@@ -68,7 +68,7 @@ class MoodbarPipeline {
   std::unique_ptr<MoodbarBuilder> builder_;
 
   bool success_;
-  std::vector<uint8_t> data_;
+  std::vector<std::uint8_t> data_;
 };
 
 #endif  // MOODBARPIPELINE_H
