@@ -54,24 +54,24 @@ void MoodbarBuilder::Init(int bands, int rate_hz) {
   }
 }
 
-void MoodbarBuilder::AddFrame(const double* magnitudes, int size) {
+void MoodbarBuilder::AddFrame(const double* magnitudes, std::size_t size) {
   if (size > barkband_table_.size()) {
     return;
   }
 
   // Calculate total magnitudes for different bark bands.
   double bands[sBarkBandCount];
-  for (int i = 0; i < sBarkBandCount; ++i) {
+  for (std::size_t i = 0; i < sBarkBandCount; ++i) {
     bands[i] = 0.0;
   }
 
-  for (int i = 0; i < size; ++i) {
+  for (std::size_t i = 0; i < size; ++i) {
     bands[barkband_table_[i]] += magnitudes[i];
   }
 
   // Now divide the bark bands into thirds and compute their total amplitudes.
   double rgb[] = {0, 0, 0};
-  for (int i = 0; i < sBarkBandCount; ++i) {
+  for (std::size_t i = 0; i < sBarkBandCount; ++i) {
     rgb[(i * 3) / sBarkBandCount] += bands[i] * bands[i];
   }
 
@@ -81,7 +81,7 @@ void MoodbarBuilder::AddFrame(const double* magnitudes, int size) {
 void MoodbarBuilder::Normalize(std::vector<Rgb>* vals, double Rgb::*member) {
   double mini = vals->at(0).*member;
   double maxi = vals->at(0).*member;
-  for (int i = 1; i < vals->size(); i++) {
+  for (std::size_t i = 1; i < vals->size(); i++) {
     const double value = vals->at(i).*member;
     if (value > maxi) {
       maxi = value;
@@ -152,10 +152,10 @@ void MoodbarBuilder::Normalize(std::vector<Rgb>* vals, double Rgb::*member) {
   }
 }
 
-std::vector<uint8_t> MoodbarBuilder::Finish(int width) {
-  std::vector<uint8_t> ret;
+std::vector<std::uint8_t> MoodbarBuilder::Finish(int width) {
+  std::vector<std::uint8_t> ret;
   ret.resize(width * 3);
-  uint8_t* data = ret.data();
+  std::uint8_t* data = ret.data();
   if (frames_.size() == 0) return ret;
 
   Normalize(&frames_, &Rgb::r);
