@@ -36,12 +36,12 @@ using GFileOutputStreamH =
     std::unique_ptr<GFileOutputStream, decltype(&g_object_unref)>;
 
 namespace {
-void printUsage(std::ostream& stream, const char* exe) {
+void printUsage(std::ostream &stream, const char *exe) {
   stream << "Usage: " << exe << " -o OUTPUT INPUT" << std::endl;
 }
 }  // namespace
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   bool isCorrectUsage = false;
   if (argc == 2) {
     std::string argv1 = argv[1];
@@ -60,8 +60,8 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  const char* argOut = argv[2];
-  const char* argIn = argv[3];
+  const char *argOut = argv[2];
+  const char *argIn = argv[3];
 
   // Process input file
 
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
     std::cerr << "ERROR: Failed writing " << argOut << std::endl;
     return 1;
   }
-  const auto& data = mood.data();
+  const auto &data = mood.data();
   bool ok =
       g_output_stream_write_all(G_OUTPUT_STREAM(streamOut.get()), data.data(),
                                 data.size(), nullptr, nullptr, nullptr);
