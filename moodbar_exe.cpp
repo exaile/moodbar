@@ -21,10 +21,9 @@
 
 #include <gio/gio.h>
 
-#include <condition_variable>
+#include <future>
 #include <iostream>
 #include <memory>
-#include <mutex>
 #include <ostream>
 #include <string>
 
@@ -69,26 +68,19 @@ int main(int argc, char* argv[]) {
   GFileH fileIn{g_file_new_for_commandline_arg(argIn), &g_object_unref};
   GCharH uriIn{g_file_get_uri(fileIn.get()), &g_free};
 
-  std::mutex mutex;
-  std::condition_variable cond;
-  int status = -1;  // 0 = success, >0 = error
+  std::promise<bool> moodAvailablePromise;  // The bool indicates success.
+  auto moodAvailable = moodAvailablePromise.get_future();
 
   moodbar_init();
   MoodbarPipeline mood{uriIn.get()};
-  mood.Finished = [&mutex, &status, &cond](bool success) {
-    {
-      std::lock_guard<std::mutex> lock(mutex);
-      status = success ? 0 : 1;
-    }
-    cond.notify_one();
+  mood.Finished = [&moodAvailablePromise](bool success) {
+    moodAvailablePromise.set_value(success);
   };
   mood.Start();
 
-  {  // Wait until the pipeline finishes and we get a status
-    std::unique_lock<std::mutex> lock(mutex);
-    while (status == -1) cond.wait(lock);
-  }
-  if (status != 0) return status;  // There should already be an error message.
+  moodAvailable.wait();
+  if (not moodAvailable.get())
+    return 1;  // There should already be an error message.
 
   // Write output file
 
