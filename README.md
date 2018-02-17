@@ -57,3 +57,14 @@ moodbar -o OUTPUT INPUT
 ```
 
 This creates an output file containing pixel values in `R1 G1 B1 R2 G2 B2 ...` format.
+
+
+## Contributing
+
+When you contribute to a file in this project, you agree to release your contribution under the same license specified in the file's license header.
+If there is no license header in the file, or if it's a new file, you agree to release your contribution under the GNU General Public License version 2 or later (GPL-2.0+), or you may specify another license that is compatible with GPL-2.0+.
+
+Code in the `gst` and `src` directories must be kept as close as possible to their original versions in the Clementine repository.
+The only permitted changes are to remove additional dependencies, to fix build errors/warnings, and to fix serious (e.g. security) issues.
+
+Other C or C++ code must be formatted with clang-format using the default settings.
