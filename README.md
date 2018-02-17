@@ -59,6 +59,16 @@ moodbar -o OUTPUT INPUT
 This creates an output file containing pixel values in `R1 G1 B1 R2 G2 B2 ...` format.
 
 
+## Testing
+
+Once Moodbar is built, you can run `meson test` inside the build directory to run some unit tests.
+The tests require the following:
+
+* Python 3
+* NumPy
+* `gst-launch-1.0`. If this is named differently in your system or is not in PATH, point the GST_LAUNCH environment variable to it.
+
+
 ## Contributing
 
 When you contribute to a file in this project, you agree to release your contribution under the same license specified in the file's license header.
