@@ -42,3 +42,7 @@ moodbar_exe = executable('moodbar',
   ],
   install : true,
 )
+
+test('test', find_program('test.py'),
+  workdir : meson.current_build_dir(),
+)
