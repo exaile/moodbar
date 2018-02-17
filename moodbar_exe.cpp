@@ -39,7 +39,7 @@ namespace {
 void printUsage(std::ostream &stream, const char *exe) {
   stream << "Usage: " << exe << " -o OUTPUT INPUT" << std::endl;
 }
-}  // namespace
+} // namespace
 
 int main(int argc, char *argv[]) {
   bool isCorrectUsage = false;
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
   GFileH fileIn{g_file_new_for_commandline_arg(argIn), &g_object_unref};
   GCharH uriIn{g_file_get_uri(fileIn.get()), &g_free};
 
-  std::promise<bool> moodAvailablePromise;  // The bool indicates success.
+  std::promise<bool> moodAvailablePromise; // The bool indicates success.
   auto moodAvailable = moodAvailablePromise.get_future();
 
   moodbar_init();
@@ -80,15 +80,15 @@ int main(int argc, char *argv[]) {
 
   moodAvailable.wait();
   if (not moodAvailable.get())
-    return 1;  // There should already be an error message.
+    return 1; // There should already be an error message.
 
   // Write output file
 
   GFileH fileOut{g_file_new_for_commandline_arg(argOut), &g_object_unref};
-  GFileOutputStreamH streamOut{
-      g_file_replace(fileOut.get(), nullptr, FALSE,
-                     G_FILE_CREATE_REPLACE_DESTINATION, nullptr, nullptr),
-      &g_object_unref};
+  GFileOutputStreamH streamOut{g_file_replace(fileOut.get(), nullptr, FALSE,
+                                              G_FILE_CREATE_REPLACE_DESTINATION,
+                                              nullptr, nullptr),
+                               &g_object_unref};
   if (not streamOut) {
     std::cerr << "ERROR: Failed writing " << argOut << std::endl;
     return 1;
