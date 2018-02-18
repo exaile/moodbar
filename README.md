@@ -61,7 +61,7 @@ This creates an output file containing pixel values in `R1 G1 B1 R2 G2 B2 ...` f
 
 ## Testing
 
-Once Moodbar is built, you can run `meson test` inside the build directory to run some unit tests.
+You can run `meson test -v` inside the build directory to run some unit tests.
 The tests require the following:
 
 * Python 3
