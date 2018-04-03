@@ -1,6 +1,7 @@
 project('moodbar', 'cpp',
   version : '1.0',
   license : 'GPL-3.0+',
+  meson_version : '>=0.35',
   default_options : 'cpp_std=c++14',
 )
 
