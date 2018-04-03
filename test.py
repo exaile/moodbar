@@ -58,15 +58,13 @@ class MoodbarTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory(prefix='moodbar-test.') as tmpdir:
             audiopath = os.path.join(tmpdir, 'test.opus')
-            # Windows needs shell=True, Linux needs shell=False. Not sure why.
-            shell = sys.platform == 'win32'
             subprocess.check_call([GST_LAUNCH,
                 'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
                 '!', 'opusenc', 'bitrate=32000', '!', 'oggmux',
                 '!', 'filesink', 'location='+audiopath,
                 'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
                 'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
-            ], shell=shell, stdout=subprocess.DEVNULL)
+            ], stdout=subprocess.DEVNULL)
             moodpath = os.path.join(tmpdir, 'test.mood')
             call_moodbar(audiopath, moodpath)
             mood = np.fromfile(moodpath, dtype=np.uint8)
