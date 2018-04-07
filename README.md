@@ -1,6 +1,13 @@
 # Moodbar
 
-An implementation of the [Moodbar](https://sjohannes.wordpress.com/2015/10/16/the-moodbar-audio-visualisation-method/) audio timeline visualization.
+Moodbar is a music visualization method that assigns colors to different parts of a track and presents them as a timeline.
+Applied to a music player, the main goal is to help the user navigate within a particular track.
+For example, if the user wants to skip to the first chorus of a song, a good moodbar implementation should be able to provide a hint of where this might occur in the timeline.
+
+![Moodbar example](doc/moodbar-example.svg)
+
+The particular moodbar implementation in this repository is based on the Bandwise Spectral Magnitude method presented in [*On Techniques for Content-Based Visual Annotation to Aid Intra-Track Music Navigation*](https://cratoo.de/amarok/ismir-crc.pdf) (Gavin Wood & Simon O'Keefe, 2005).
+It divides the track into small chunks and assigns a color to each chunk: the red channel represents audio levels in the low frequencies, green for mid frequencies, and blue for high frequencies.
 
 This is a drop-in replacement for the outdated [Moodbar](https://userbase.kde.org/Amarok/Manual/Various/Moodbar) program originally developed for Amarok.
 

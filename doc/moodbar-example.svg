@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg5866"
+   version="1.1"
+   viewBox="0 0 105.83333 31.750001"
+   height="120"
+   width="400">
+  <title
+     id="title5945">Moodbar example</title>
+  <defs
+     id="defs5860">
+    <marker
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker5669"
+       style="overflow:visible">
+      <path
+         id="path5667"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata5863">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Moodbar example</dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Johannes Sasongko</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>© 2018</dc:title>
+          </cc:Agent>
+        </dc:rights>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-265.24998)"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="rect5795"
+       width="105.83334"
+       height="31.750002"
+       x="0"
+       y="265.24997" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458335"
+       x="1.9722544"
+       y="274.60419"
+       id="text4561"><tspan
+         id="tspan4559"
+         x="1.9722544"
+         y="274.60419"
+         style="font-size:7.76111126px;stroke-width:0.26458335;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">Never Gonna Give You Up</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888903px;line-height:1.14285707;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458335"
+       x="2.226254"
+       y="281.96255"
+       id="text4565"><tspan
+         x="2.226254"
+         y="281.96255"
+         style="font-size:4.93888903px;line-height:1.14285707;stroke-width:0.26458335;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
+         id="tspan4581">Rick Astley</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#080808;stroke-width:0.5291667;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect4518-1"
+       width="80.697922"
+       height="7.9375157"
+       x="22.489584"
+       y="286.41663" />
+    <path
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       d="m 2.6458334,286.41664 h 7.9375006 v 7.9375 H 2.6458334 Z"
+       id="rect5293" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.05833328;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 5.55625,287.73956 v 5.29167"
+       id="path5300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.05833328;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 7.6729167,287.73956 v 5.29167"
+       id="path5302" />
+    <path
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       d="m 11.906251,286.41664 h 7.9375 v 7.9375 h -7.9375 z"
+       id="rect5293-4" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 17.197917,287.73956 v 5.29167"
+       id="path5335" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.43967497;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path5742"
+       d="m 14.2875,293.03123 v -2.64583 -2.64583 l 1.322913,1.32292 1.32292,1.32291 -1.32292,1.32292 z" />
+    <image
+       width="80.697914"
+       height="7.9375"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATEAAAAeCAIAAADLir5oAAAD2klEQVR42mLiY5LnZZQK4taz5lNx 5lD0YRe35ZExF1GzETR14ZB2ZpfwZBJwYeVy0AkPlAsI5xRx5JLzZReL5JHwFtQ0EdCz5ZW1YpPw YOE145HwE9ZzYZOJMLR0cM1OFTX3F1Z3YOHzYpfMEVbxE7e04fDLltHoMpIJl+RNEY3ONM9x8DIA AH8AgP9OPTFRGR5UAxZoSjRTX2NDVlFQs51bW1hhKSp5TEI3OWpLSZJmPE1RTjM/lj1LBx9GOy5Z PC1RKEJHT2pTZ6abf6iaKSFcM1Jtro1trUlvRlKhjnJsfF9rSEWHpXlhTSx1XmyTf4+cdyddOV5r uo6EjURtVX56sIiVi3BpZUhoOuJV0BLrxW8fbhgXox8Zo67szmpbKRWfwKLkxSTj5jPJycrSntXc Q7fby63D1T/FX84+WF4+UFI8XUopgFEyXEk2N6bS2zfPW0Q9PtgzvLvWIczRe2GYS35dbESmn0W6 a1xRdIhCiIBLXMjWSFGjyPwe/6IZZT0nlyT15kvL54YAAH8AgP9obMGKX3RAdldkhnt1VnpTiWBm hJhiaDQ0fnWboYCJk14mX0V8W8h+mphNcWObqb2Bi4J7Z28+hthXWU5AYl+aqpa9pjI6WjxKXLCM cJ1cbU5YmZ94b5p4bUxSk5l/V18pWU50mIGXqWssW0dic62Mj5tCZlyRoLqOq6t2SWZPqjttl90V aCoTHC1k4MMm6sUibcopZc8v7cwiEs8ib84q58Uh4ssta80rpsEmni6okpdd55Y33VM/MJiHx4xV woVDwt+v2DOyzEvPz01I0ULUxJlNVUfcy1JCzYRVypzbz4FNypJZWFvAWVPNUpdDxFIg0kAsxcQ8 0VzS1ZhLwhAgXikzXlFjTglTZhEDMVUbDTtrVhENHkl7a2MtZXN3BW1TNScrhWQ/DXcjRVWdGC1n fmVjKQUbLRl7IWdb3Upvv+bErIU5ElJGYpo+qfkxOVbOSubx3l5OziZWakbpnsGWpupmasER/pkx VorOknZWk/JC0tTsNXwDotJzgpztNAHSci3TDPI195Cy9ovuj9e29+MTd3aJ8y4Os9fUSbBy93d2 sDfV9jFIjQgzDxYx9fPPLHS3cddUsMlvCmq2ctW1D/JJTClwtVS1sI2UDS4zDhQ0tPfpr3VJ8eXm NVCxVHbxklTg5OHg4eDh4mBjYWJmZ2ZlY2RgZGBgZCAEmBhGwSgAtE/HNAAAAAyD/Luei2YHeIAn ToKTgJPgJOAkOAk4CU4CToKTgJOAk+Ak4CQ4CTgJTgJOgpOAk4CT4CTgJDgJOAlOAk6Ck0BnTWX3 M+mD9qUAAAAASUVORK5CYII= "
+       id="image5942"
+       x="22.489584"
+       y="286.41663" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5291667;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       d="m 57.546876,286.41665 -3.307293,2.64583 -3.307291,-2.64583 z"
+       id="path5791" />
+  </g>
+</svg>
