@@ -4,7 +4,7 @@ Moodbar is a music visualization method that assigns colors to different parts o
 Applied to a music player, the main goal is to help the user navigate within a particular track.
 For example, if the user wants to skip to the first chorus of a song, a good moodbar implementation should be able to provide a hint of where this might occur in the timeline.
 
-![Moodbar example](doc/moodbar-example.svg)
+![Moodbar example](https://user-images.githubusercontent.com/8440927/38452195-b894a060-3a2e-11e8-8573-acb542630774.png)
 
 The particular moodbar implementation in this repository is based on the Bandwise Spectral Magnitude method presented in [*On Techniques for Content-Based Visual Annotation to Aid Intra-Track Music Navigation*](https://cratoo.de/amarok/ismir-crc.pdf) (Gavin Wood & Simon O'Keefe, 2005).
 It divides the track into small chunks and assigns a color to each chunk: the red channel represents audio levels in the low frequencies, green for mid frequencies, and blue for high frequencies.
