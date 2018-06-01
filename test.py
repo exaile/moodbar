@@ -18,6 +18,7 @@
 
 
 import os
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -26,15 +27,16 @@ import unittest
 import numpy as np
 
 
-GST_LAUNCH = os.environ.get('GST_LAUNCH', 'gst-launch-1.0')
-MOODBAR = './moodbar'
+GST_LAUNCH = shlex.split(os.environ.get('GST_LAUNCH', 'gst-launch-1.0'))
+MOODBAR_EXE_DEFAULT = './moodbar'
+MOODBAR = shlex.split(os.environ.get('MOODBAR', MOODBAR_EXE_DEFAULT))
 
 
 def call_moodbar(inpath: str, outpath: str):
     try:
-        return subprocess.check_call([MOODBAR, '-o', outpath, inpath])
+        return subprocess.check_call(MOODBAR + ['-o', outpath, inpath])
     except FileNotFoundError as e:
-        if e.filename == MOODBAR:
+        if e.filename == MOODBAR_EXE_DEFAULT:
             raise FileNotFoundError("Could not find moodbar executable. "
                 "Make sure you run this test from the build directory.") from e
         raise
@@ -58,7 +60,7 @@ class MoodbarTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory(prefix='moodbar-test.') as tmpdir:
             audiopath = os.path.join(tmpdir, 'test.opus')
-            subprocess.check_call([GST_LAUNCH,
+            subprocess.check_call(GST_LAUNCH + [
                 'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
                 '!', 'opusenc', 'bitrate=32000', '!', 'oggmux',
                 '!', 'filesink', 'location='+audiopath,
