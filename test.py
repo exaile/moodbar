@@ -62,7 +62,7 @@ class MoodbarTest(unittest.TestCase):
             audiopath = os.path.join(tmpdir, 'test.opus')
             subprocess.check_call(GST_LAUNCH + [
                 'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
-                '!', 'opusenc', 'bitrate=32000', '!', 'oggmux',
+                '!', 'vorbisenc', 'bitrate=32000', '!', 'oggmux',
                 '!', 'filesink', 'location='+audiopath,
                 'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
                 'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
