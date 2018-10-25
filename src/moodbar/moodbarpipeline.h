@@ -19,7 +19,6 @@
 #define MOODBARPIPELINE_H
 
 #include <gst/gst.h>
-#include <gst/app/gstappsink.h>
 
 #include <cstdint>
 #include <functional>
@@ -52,8 +51,6 @@ class MoodbarPipeline {
   void Cleanup();
 
   static void NewPadCallback(GstElement*, GstPad* pad, gpointer data);
-  static GstFlowReturn NewBufferCallback(GstAppSink* app_sink, gpointer self);
-  static gboolean BusCallback(GstBus*, GstMessage* msg, gpointer data);
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage* msg,
                                          gpointer data);
 
