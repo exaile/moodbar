@@ -7,5 +7,8 @@ env:
 before_install:
   - docker pull $IMAGE
 script:
-  - docker run --rm -v "$(pwd):/src" $IMAGE
-      sh -c "meson /src /build && meson test -C /build -v && meson --cross-file=fedora-win64 /src /build-win64 && MOODBAR='wine64 ./moodbar' meson test -C /build-win64 -v"
+  - docker run --rm -v "$(pwd):/src" $IMAGE sh -xc "
+      meson /src /build &&
+      meson test -C /build -v &&
+      meson --cross-file=fedora-win64 /src /build-win64 &&
+      MOODBAR='wine64 ./moodbar' meson test -C /build-win64 -v"
