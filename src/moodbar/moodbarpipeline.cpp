@@ -30,7 +30,8 @@ MoodbarPipeline::MoodbarPipeline(const std::string& local_filename)
     : local_filename_(local_filename),
       pipeline_(nullptr),
       convert_element_(nullptr),
-      success_(false) {}
+      success_(false),
+      running_(false) {}
 
 MoodbarPipeline::~MoodbarPipeline() { Cleanup(); }
 
@@ -108,6 +109,7 @@ void MoodbarPipeline::Start() {
   gst_object_unref(bus);
 
   // Start playing
+  running_ = true;
   gst_element_set_state(pipeline_, GST_STATE_PLAYING);
 }
 
@@ -126,6 +128,11 @@ void MoodbarPipeline::ReportError(GstMessage* msg) {
 
 void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
   MoodbarPipeline* self = reinterpret_cast<MoodbarPipeline*>(data);
+
+  if (!self->running_) {
+    return;
+  }
+
   GstPad* const audiopad =
       gst_element_get_static_pad(self->convert_element_, "sink");
 
@@ -143,7 +150,8 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
   gst_structure_get_int(structure, "rate", &rate);
   gst_caps_unref(caps);
 
-  self->builder_->Init(kBands, rate);
+  if (self->builder_ != nullptr)
+    self->builder_->Init(kBands, rate);
 }
 
 GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg,
@@ -168,6 +176,7 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg,
 
 void MoodbarPipeline::Stop(bool success) {
   success_ = success;
+  running_ = false;
   if (builder_ != nullptr) {
     data_ = builder_->Finish(1000);
     builder_.reset();
@@ -178,6 +187,7 @@ void MoodbarPipeline::Stop(bool success) {
 }
 
 void MoodbarPipeline::Cleanup() {
+  running_ = false;
   if (pipeline_) {
     GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);

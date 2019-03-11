@@ -65,6 +65,7 @@ class MoodbarPipeline {
   std::unique_ptr<MoodbarBuilder> builder_;
 
   bool success_;
+  bool running_;
   std::vector<std::uint8_t> data_;
 };
 
