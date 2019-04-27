@@ -76,7 +76,7 @@ class MoodbarTest(unittest.TestCase):
         red = mood[length*1//12 : length*3//12].mean(0)
         green = mood[length*5//12 : length*7//12].mean(0)
         blue = mood[length*9//12 : length*11//12].mean(0)
-        delta = [20, 20, 20]
+        delta = [30, 30, 30]
         self.assertArrayAlmostEqual(red, [255, 0, 0], delta)
         self.assertArrayAlmostEqual(green, [0, 255, 0], delta)
         self.assertArrayAlmostEqual(blue, [0, 0, 255], delta)
