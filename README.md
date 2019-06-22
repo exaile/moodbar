@@ -11,7 +11,8 @@ It divides the track into small chunks and assigns a color to each chunk: the re
 
 This is a drop-in replacement for the outdated [Moodbar](https://userbase.kde.org/Amarok/Manual/Various/Moodbar) program originally developed for Amarok.
 
-Files in the `gst` and `src` directories are taken from [Clementine](https://www.clementine-player.org/) (revision 3886f3d1e4b29d028c1bacf474bc40d1c45c2ea9, 2014-12-22) with slight modifications to remove some dependencies.
+Files in the `gst` and `src` directories are taken from [Clementine](https://www.clementine-player.org/) with slight modifications to remove some dependencies.
+The initial commit is taken from Clementine revision 3886f3d1e4b29d028c1bacf474bc40d1c45c2ea9 (2014-12-22), last sync is at revision 55edcf5321051e44281f067a7e3ee44871982c12 (2019-03-11).
 
 
 ## Requirements
