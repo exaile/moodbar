@@ -6,7 +6,7 @@ For example, if the user wants to skip to the first chorus of a song, a good moo
 
 ![Moodbar example](https://user-images.githubusercontent.com/8440927/38452195-b894a060-3a2e-11e8-8573-acb542630774.png)
 
-The particular moodbar implementation in this repository is based on the Bandwise Spectral Magnitude method presented in [*On Techniques for Content-Based Visual Annotation to Aid Intra-Track Music Navigation*](https://cratoo.de/amarok/ismir-crc.pdf) (Gavin Wood & Simon O'Keefe, 2005).
+The particular moodbar implementation in this repository is based on the Bandwise Spectral Magnitude method presented in [*On Techniques for Content-Based Visual Annotation to Aid Intra-Track Music Navigation*](https://ismir2005.ismir.net/proceedings/1023.pdf) (Gavin Wood & Simon O'Keefe, 2005).
 It divides the track into small chunks and assigns a color to each chunk: the red channel represents audio levels in the low frequencies, green for mid frequencies, and blue for high frequencies.
 
 This is a drop-in replacement for the outdated [Moodbar](https://userbase.kde.org/Amarok/Manual/Various/Moodbar) program originally developed for Amarok.
