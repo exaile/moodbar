@@ -9,9 +9,11 @@ For example, if the user wants to skip to the first chorus of a song, a good moo
 The particular moodbar implementation in this repository is based on the Bandwise Spectral Magnitude method presented in [*On Techniques for Content-Based Visual Annotation to Aid Intra-Track Music Navigation*](https://ismir2005.ismir.net/proceedings/1023.pdf) (Gavin Wood & Simon O'Keefe, 2005).
 It divides the track into small chunks and assigns a color to each chunk: the red channel represents audio levels in the low frequencies, green for mid frequencies, and blue for high frequencies.
 
-This is a drop-in replacement for the outdated [Moodbar](https://userbase.kde.org/Amarok/Manual/Various/Moodbar) program originally developed for Amarok.
+The code is mostly taken from [Clementine](https://www.clementine-player.org/), with the addition of a command-line interface that is a drop-in alternative to [the original Moodbar program](https://userbase.kde.org/Amarok/Manual/Various/Moodbar).
+Clementine's moodbar implementation used to be based on the original project's, but they have since diverged greatly.
+Both implement the same idea and the outputs should be roughly similar.
 
-Files in the `gst` and `src` directories are taken from [Clementine](https://www.clementine-player.org/) with slight modifications to remove some dependencies.
+Files in the `gst` and `src` directories are directly taken from Clementine's repository with slight modifications to remove some extra dependencies.
 The initial commit is taken from Clementine revision 3886f3d1e4b29d028c1bacf474bc40d1c45c2ea9 (2014-12-22), last sync is at revision 55edcf5321051e44281f067a7e3ee44871982c12 (2019-03-11).
 
 
