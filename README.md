@@ -25,7 +25,7 @@ The initial commit is taken from Clementine revision 3886f3d1e4b29d028c1bacf474b
 
 For building:
 
-* Development files for the above
+* Development files for the above. A "Native dependency ... not found" error means you missed something.
 * C++ compiler
 * Meson. If your OS doesn't have a package for this, you can install it through pip (requires Python 3).
 * pkgconf or pkg-config
