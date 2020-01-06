@@ -85,9 +85,6 @@ struct GstFastSpectrum {
 
 struct GstFastSpectrumClass {
   GstAudioFilterClass parent_class;
-
-  // Static lock for creating & destroying FFTW plans.
-  std::mutex fftw_lock;
 };
 
 GType gst_fastspectrum_get_type (void);
