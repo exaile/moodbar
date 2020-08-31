@@ -14,7 +14,8 @@ Clementine's moodbar implementation used to be based on the original project's, 
 Both implement the same idea and the outputs should be roughly similar.
 
 Files in the `gst` and `src` directories are directly taken from Clementine's repository with slight modifications to remove some extra dependencies.
-The initial commit is taken from Clementine revision 3886f3d1e4b29d028c1bacf474bc40d1c45c2ea9 (2014-12-22), last sync is at revision 55edcf5321051e44281f067a7e3ee44871982c12 (2019-03-11).
+The initial code is taken from Clementine revision 3886f3d1e4b29d028c1bacf474bc40d1c45c2ea9 (2014-12-22), with non-Moodbar commits filtered out.
+Last sync is at Clementine revision 55edcf5321051e44281f067a7e3ee44871982c12 (2019-03-11).
 
 
 ## Requirements
