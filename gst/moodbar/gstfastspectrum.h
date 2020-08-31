@@ -30,6 +30,7 @@
 #define GST_MOODBAR_FASTSPECTRUM_H_
 
 #include <functional>
+#include <mutex>
 
 #include <gst/gst.h>
 #include <gst/audio/gstaudiofilter.h>
@@ -42,8 +43,6 @@ G_BEGIN_DECLS
 #define GST_IS_FASTSPECTRUM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_FASTSPECTRUM))
 #define GST_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM,GstFastSpectrumClass))
 #define GST_IS_FASTSPECTRUM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_FASTSPECTRUM))
-
-class QMutex;
 
 typedef void (*GstFastSpectrumInputData)(const guint8* in, double* out,
     guint len, double max_value, guint op, guint nfft);
@@ -88,7 +87,7 @@ struct GstFastSpectrumClass {
   GstAudioFilterClass parent_class;
 
   // Static lock for creating & destroying FFTW plans.
-  QMutex* fftw_lock;
+  std::mutex fftw_lock;
 };
 
 GType gst_fastspectrum_get_type (void);

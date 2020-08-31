@@ -21,9 +21,7 @@
 
 #include <cstring>
 #include <cmath>
-
-#include <QMutex>
-#include <QMutexLocker>
+#include <mutex>
 
 #include "gstfastspectrum.h"
 
@@ -111,8 +109,6 @@ gst_fastspectrum_class_init (GstFastSpectrumClass * klass)
   caps = gst_caps_from_string (ALLOWED_CAPS);
   gst_audio_filter_class_add_pad_templates (filter_class, caps);
   gst_caps_unref (caps);
-
-  klass->fftw_lock = new QMutex;
 }
 
 static void
@@ -143,7 +139,7 @@ gst_fastspectrum_alloc_channel_data (GstFastSpectrum * spectrum)
   GstFastSpectrumClass* klass = reinterpret_cast<GstFastSpectrumClass*>(
       G_OBJECT_GET_CLASS(spectrum));
   {
-    QMutexLocker l(klass->fftw_lock);
+    std::lock_guard<decltype(klass->fftw_lock)> l(klass->fftw_lock);
     spectrum->plan = fftw_plan_dft_r2c_1d(
         nfft,
         spectrum->fft_input,
@@ -160,7 +156,7 @@ gst_fastspectrum_free_channel_data (GstFastSpectrum * spectrum)
       G_OBJECT_GET_CLASS(spectrum));
   if (spectrum->channel_data_initialised) {
     {
-      QMutexLocker l(klass->fftw_lock);
+      std::lock_guard<decltype(klass->fftw_lock)> l(klass->fftw_lock);
       fftw_destroy_plan(spectrum->plan);
     }
     fftw_free(spectrum->fft_input);

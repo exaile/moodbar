@@ -16,8 +16,8 @@
 */
 
 #include "moodbarbuilder.h"
-#include "core/arraysize.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace {
@@ -26,7 +26,7 @@ static const int sBarkBands[] = {
     100,  200,  300,  400,  510,  630,  770,  920,  1080, 1270, 1480,  1720,
     2000, 2320, 2700, 3150, 3700, 4400, 5300, 6400, 7700, 9500, 12000, 15500};
 
-static const int sBarkBandCount = arraysize(sBarkBands);
+static const int sBarkBandCount = std::extent<decltype(sBarkBands)>::value;
 
 }  // namespace
 
@@ -50,12 +50,12 @@ void MoodbarBuilder::Init(int bands, int rate_hz) {
       barkband++;
     }
 
-    barkband_table_.append(barkband);
+    barkband_table_.push_back(barkband);
   }
 }
 
 void MoodbarBuilder::AddFrame(const double* magnitudes, int size) {
-  if (size > barkband_table_.length()) {
+  if (size > barkband_table_.size()) {
     return;
   }
 
@@ -75,13 +75,13 @@ void MoodbarBuilder::AddFrame(const double* magnitudes, int size) {
     rgb[(i * 3) / sBarkBandCount] += bands[i] * bands[i];
   }
 
-  frames_.append(Rgb(sqrt(rgb[0]), sqrt(rgb[1]), sqrt(rgb[2])));
+  frames_.push_back(Rgb(sqrt(rgb[0]), sqrt(rgb[1]), sqrt(rgb[2])));
 }
 
-void MoodbarBuilder::Normalize(QList<Rgb>* vals, double Rgb::*member) {
+void MoodbarBuilder::Normalize(std::vector<Rgb>* vals, double Rgb::*member) {
   double mini = vals->at(0).*member;
   double maxi = vals->at(0).*member;
-  for (int i = 1; i < vals->count(); i++) {
+  for (int i = 1; i < vals->size(); i++) {
     const double value = vals->at(i).*member;
     if (value > maxi) {
       maxi = value;
@@ -95,7 +95,7 @@ void MoodbarBuilder::Normalize(QList<Rgb>* vals, double Rgb::*member) {
   for (const Rgb& rgb : *vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
-      avg += value / vals->count();
+      avg += value / vals->size();
       t++;
     }
   }
@@ -148,15 +148,15 @@ void MoodbarBuilder::Normalize(QList<Rgb>* vals, double Rgb::*member) {
   for (auto it = vals->begin(); it != vals->end(); ++it) {
     double* value = &((*it).*member);
     *value =
-        std::isfinite(*value) ? qBound(0.0, (*value - mini) / delta, 1.0) : 0;
+        std::isfinite(*value) ? std::max(0.0, std::min((*value - mini) / delta, 1.0)) : 0;
   }
 }
 
-QByteArray MoodbarBuilder::Finish(int width) {
-  QByteArray ret;
+std::vector<uint8_t> MoodbarBuilder::Finish(int width) {
+  std::vector<uint8_t> ret;
   ret.resize(width * 3);
-  char* data = ret.data();
-  if (frames_.count() == 0) return ret;
+  uint8_t* data = ret.data();
+  if (frames_.size() == 0) return ret;
 
   Normalize(&frames_, &Rgb::r);
   Normalize(&frames_, &Rgb::g);
@@ -164,8 +164,8 @@ QByteArray MoodbarBuilder::Finish(int width) {
 
   for (int i = 0; i < width; ++i) {
     Rgb rgb;
-    int start = i * frames_.count() / width;
-    int end = (i + 1) * frames_.count() / width;
+    int start = i * frames_.size() / width;
+    int end = (i + 1) * frames_.size() / width;
     if (start == end) {
       end = start + 1;
     }

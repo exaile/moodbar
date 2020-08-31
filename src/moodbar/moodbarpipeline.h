@@ -18,37 +18,34 @@
 #ifndef MOODBARPIPELINE_H
 #define MOODBARPIPELINE_H
 
-#include <QObject>
-#include <QUrl>
-
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
 
+#include <cstdint>
+#include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 class MoodbarBuilder;
 
 // Creates moodbar data for a single local music file.
-class MoodbarPipeline : public QObject {
-  Q_OBJECT
-
+class MoodbarPipeline {
  public:
-  MoodbarPipeline(const QUrl& local_filename);
+  MoodbarPipeline(const std::string& local_filename);
   ~MoodbarPipeline();
 
   static bool IsAvailable();
 
   bool success() const { return success_; }
-  const QByteArray& data() const { return data_; }
+  const std::vector<uint8_t>& data() const { return data_; }
 
- public slots:
   void Start();
 
- signals:
-  void Finished(bool success);
+  std::function<void(bool success)> Finished;
 
  private:
-  GstElement* CreateElement(const QString& factory_name);
+  GstElement* CreateElement(const std::string& factory_name);
 
   void ReportError(GstMessage* message);
   void Stop(bool success);
@@ -64,15 +61,14 @@ class MoodbarPipeline : public QObject {
   static bool sIsAvailable;
   static const int kBands;
 
-  QUrl local_filename_;
+  std::string local_filename_;
   GstElement* pipeline_;
   GstElement* convert_element_;
 
   std::unique_ptr<MoodbarBuilder> builder_;
 
   bool success_;
-  bool running_;
-  QByteArray data_;
+  std::vector<uint8_t> data_;
 };
 
 #endif  // MOODBARPIPELINE_H

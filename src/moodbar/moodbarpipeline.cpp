@@ -17,28 +17,20 @@
 
 #include "moodbarpipeline.h"
 
-#include <QCoreApplication>
-#include <QThread>
-#include <QUrl>
-
-#include "core/logging.h"
-#include "core/signalchecker.h"
-#include "core/timeconstants.h"
-#include "core/utilities.h"
 #include "moodbar/moodbarbuilder.h"
 
 #include "gst/moodbar/gstfastspectrum.h"
 
+#include <iostream>
+
 bool MoodbarPipeline::sIsAvailable = false;
 const int MoodbarPipeline::kBands = 128;
 
-MoodbarPipeline::MoodbarPipeline(const QUrl& local_filename)
-    : QObject(nullptr),
-      local_filename_(local_filename),
+MoodbarPipeline::MoodbarPipeline(const std::string& local_filename)
+    : local_filename_(local_filename),
       pipeline_(nullptr),
       convert_element_(nullptr),
-      success_(false),
-      running_(false) {}
+      success_(false) {}
 
 MoodbarPipeline::~MoodbarPipeline() { Cleanup(); }
 
@@ -56,24 +48,20 @@ bool MoodbarPipeline::IsAvailable() {
   return sIsAvailable;
 }
 
-GstElement* MoodbarPipeline::CreateElement(const QString& factory_name) {
+GstElement* MoodbarPipeline::CreateElement(const std::string& factory_name) {
   GstElement* ret =
-      gst_element_factory_make(factory_name.toAscii().constData(), nullptr);
+      gst_element_factory_make(factory_name.c_str(), nullptr);
 
   if (ret) {
     gst_bin_add(GST_BIN(pipeline_), ret);
   } else {
-    qLog(Warning) << "Unable to create gstreamer element" << factory_name;
+    std::cerr << "WARNING: Unable to create gstreamer element " << factory_name << std::endl;
   }
 
   return ret;
 }
 
 void MoodbarPipeline::Start() {
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
-  Utilities::SetThreadIOPriority(Utilities::IOPRIO_CLASS_IDLE);
-
   if (pipeline_) {
     return;
   }
@@ -87,23 +75,25 @@ void MoodbarPipeline::Start() {
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
     pipeline_ = nullptr;
-    emit Finished(false);
+    if (Finished)
+      Finished(false);
     return;
   }
 
   // Join them together
   if (!gst_element_link(convert_element_, spectrum) ||
       !gst_element_link(spectrum, fakesink)) {
-    qLog(Error) << "Failed to link elements";
+    std::cerr << "ERROR: Failed to link elements" << std::endl;
     pipeline_ = nullptr;
-    emit Finished(false);
+    if (Finished)
+      Finished(false);
     return;
   }
 
   builder_.reset(new MoodbarBuilder);
 
   // Set properties
-  g_object_set(decodebin, "uri", local_filename_.toEncoded().constData(),
+  g_object_set(decodebin, "uri", local_filename_.c_str(),
                nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
@@ -112,13 +102,12 @@ void MoodbarPipeline::Start() {
       double* magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
 
   // Connect signals
-  CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
+  g_signal_connect(decodebin, "pad-added", G_CALLBACK(&NewPadCallback), this);
   GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
   gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
   gst_object_unref(bus);
 
   // Start playing
-  running_ = true;
   gst_element_set_state(pipeline_, GST_STATE_PLAYING);
 }
 
@@ -127,27 +116,21 @@ void MoodbarPipeline::ReportError(GstMessage* msg) {
   gchar* debugs;
 
   gst_message_parse_error(msg, &error, &debugs);
-  QString message = QString::fromLocal8Bit(error->message);
+  std::string message = error->message;
 
   g_error_free(error);
   free(debugs);
 
-  qLog(Error) << "Error processing" << local_filename_ << ":" << message;
+  std::cerr << "ERROR: Error processing " << local_filename_ << " : " << message << std::endl;
 }
 
 void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
   MoodbarPipeline* self = reinterpret_cast<MoodbarPipeline*>(data);
-
-  if (!self->running_) {
-    qLog(Warning) << "Received gstreamer callback after pipeline has stopped.";
-    return;
-  }
-
   GstPad* const audiopad =
       gst_element_get_static_pad(self->convert_element_, "sink");
 
   if (GST_PAD_IS_LINKED(audiopad)) {
-    qLog(Warning) << "audiopad is already linked, unlinking old pad";
+    std::cerr << "WARNING: audiopad is already linked, unlinking old pad" << std::endl;
     gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
   }
 
@@ -160,10 +143,7 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad* pad, gpointer data) {
   gst_structure_get_int(structure, "rate", &rate);
   gst_caps_unref(caps);
 
-  if (self->builder_ != nullptr)
-    self->builder_->Init(kBands, rate);
-  else
-    qLog(Error) << "Builder does not exist";
+  self->builder_->Init(kBands, rate);
 }
 
 GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg,
@@ -188,20 +168,16 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage* msg,
 
 void MoodbarPipeline::Stop(bool success) {
   success_ = success;
-  running_ = false;
   if (builder_ != nullptr) {
     data_ = builder_->Finish(1000);
     builder_.reset();
   }
 
-  emit Finished(success);
+  if (Finished)
+    Finished(success);
 }
 
 void MoodbarPipeline::Cleanup() {
-  Q_ASSERT(QThread::currentThread() == thread());
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
-  running_ = false;
   if (pipeline_) {
     GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
     gst_bus_set_sync_handler(bus, nullptr, nullptr, nullptr);

@@ -18,8 +18,8 @@
 #ifndef MOODBARBUILDER_H
 #define MOODBARBUILDER_H
 
-#include <QColor>
-#include <QList>
+#include <cstdint>
+#include <vector>
 
 class MoodbarBuilder {
  public:
@@ -27,7 +27,7 @@ class MoodbarBuilder {
 
   void Init(int bands, int rate_hz);
   void AddFrame(const double* magnitudes, int size);
-  QByteArray Finish(int width);
+  std::vector<uint8_t> Finish(int width);
 
  private:
   struct Rgb {
@@ -38,13 +38,13 @@ class MoodbarBuilder {
   };
 
   int BandFrequency(int band) const;
-  static void Normalize(QList<Rgb>* vals, double Rgb::*member);
+  static void Normalize(std::vector<Rgb>* vals, double Rgb::*member);
 
-  QList<uint> barkband_table_;
+  std::vector<unsigned int> barkband_table_;
   int bands_;
   int rate_hz_;
 
-  QList<Rgb> frames_;
+  std::vector<Rgb> frames_;
 };
 
 #endif // MOODBARBUILDER_H
