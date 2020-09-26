@@ -30,6 +30,7 @@ moodbar = static_library('moodbar',
   dependencies : [
     dependency('glib-2.0'),
     dep_gstreamer,
+    dependency('gstreamer-plugins-base-1.0'),
   ],
 )
 
