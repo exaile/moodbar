@@ -38,6 +38,7 @@ moodbar_exe = executable('moodbar',
   'moodbar_exe.cpp',
   include_directories : include_directories('src'),
   link_with : moodbar,
+  link_args : host_machine.system() == 'windows' ? ['-municode'] : [],
   dependencies : [
     dependency('gio-2.0'),
     dep_gstreamer,

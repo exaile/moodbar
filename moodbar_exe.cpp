@@ -21,11 +21,20 @@
 
 #include <gio/gio.h>
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include <future>
 #include <iostream>
 #include <memory>
 #include <ostream>
 #include <string>
+
+#ifdef _WIN32
+#include <vector>
+#endif
 
 using namespace std::string_literals;
 
@@ -104,3 +113,27 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
+#ifdef _WIN32
+int wmain(int argc, wchar_t *argv[]) {
+  // On Windows, GIO expects paths in UTF-8, so let's just convert all
+  // arguments to UTF-8
+  auto args_utf8 = std::vector<std::vector<char>>();
+  args_utf8.reserve(argc);
+  for (int argi = 0; argi < argc; ++argi) {
+    auto arg = argv[argi];
+    auto size_utf8 =
+        WideCharToMultiByte(CP_UTF8, 0, arg, -1, nullptr, 0, nullptr, nullptr) +
+        1;
+    auto arg_utf8 = std::vector<char>(size_utf8);
+    WideCharToMultiByte(CP_UTF8, 0, arg, -1, &arg_utf8[0], size_utf8, nullptr,
+                        nullptr);
+    args_utf8.push_back(arg_utf8);
+  }
+  auto args_utf8_cstr = std::vector<char *>(argc);
+  std::transform(args_utf8.cbegin(), args_utf8.cend(),
+                 std::begin(args_utf8_cstr),
+                 [](auto &s) { return const_cast<char *>(&s[0]); });
+  return main(argc, &args_utf8_cstr[0]);
+}
+#endif
