@@ -31,6 +31,25 @@ MOODBAR_EXE_DEFAULT = './moodbar'
 MOODBAR = shlex.split(os.environ.get('MOODBAR', MOODBAR_EXE_DEFAULT))
 
 
+def create_dummy_audio(path: str) -> None:
+    """Create audio file for testing.
+
+    The file contains low, medium, and high frequency audio (in that order), and
+    should show up in Moodbar as red, green, and blue equal-length segments.
+
+    The file uses Vorbis codec in Ogg container.
+
+    This function requires gst-launch-1.0 to be present in PATH.
+    """
+    subprocess.check_call(GST_LAUNCH + [
+        'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
+        '!', 'vorbisenc', 'bitrate=32000', '!', 'oggmux',
+        '!', 'filesink', 'location='+path,
+        'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
+        'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
+    ], stdout=subprocess.DEVNULL)
+
+
 def call_moodbar(inpath: str, outpath: str):
     try:
         return subprocess.check_call(MOODBAR + ['-o', outpath, inpath])
@@ -48,24 +67,13 @@ class MoodbarTest(unittest.TestCase):
                 msg = f"{first} != {second} within {delta} delta"
             raise AssertionError(msg)
 
-    def test_colors(self):
-        """Run Moodbar against a known audio signal and check the output.
 
-        The audio file is created with gst-launch and should contain red,
-        green, and blue segments.
-        We then test that the colors in these segments are close enough to the
-        expected colors.
-        """
+    def test_colors(self):
+        """Test that colors are close enough to the expected ones."""
 
         with tempfile.TemporaryDirectory(prefix='moodbar-test.') as tmpdir:
-            audiopath = os.path.join(tmpdir, 'test.opus')
-            subprocess.check_call(GST_LAUNCH + [
-                'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
-                '!', 'vorbisenc', 'bitrate=32000', '!', 'oggmux',
-                '!', 'filesink', 'location='+audiopath,
-                'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
-                'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
-            ], stdout=subprocess.DEVNULL)
+            audiopath = os.path.join(tmpdir, 'test.ogg')
+            create_dummy_audio(audiopath)
             moodpath = os.path.join(tmpdir, 'test.mood')
             call_moodbar(audiopath, moodpath)
             mood = np.fromfile(moodpath, dtype=np.uint8)
