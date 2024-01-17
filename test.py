@@ -41,18 +41,20 @@ def create_dummy_audio(path: str) -> None:
 
     This function requires gst-launch-1.0 to be present in PATH.
     """
-    subprocess.check_call(GST_LAUNCH + [
+    cmd = GST_LAUNCH + [
         'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
         '!', 'vorbisenc', 'bitrate=32000', '!', 'oggmux',
         '!', 'filesink', 'location='+path,
         'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
         'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
-    ], stdout=subprocess.DEVNULL)
+    ]
+    subprocess.check_call(cmd, stdout=subprocess.DEVNULL)
 
 
 def call_moodbar(inpath: str, outpath: str):
+    cmd = MOODBAR + ['-o', outpath, inpath]
     try:
-        return subprocess.check_call(MOODBAR + ['-o', outpath, inpath])
+        return subprocess.check_call(cmd)
     except FileNotFoundError as e:
         if e.filename == MOODBAR_EXE_DEFAULT:
             raise FileNotFoundError("Could not find moodbar executable. "
