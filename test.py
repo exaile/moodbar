@@ -67,6 +67,13 @@ class MoodbarTest(unittest.TestCase):
                 msg = f"{first} != {second} within {delta} delta"
             raise AssertionError(msg)
 
+    def test_unicode(self):
+        """Test that non-Latin paths work."""
+        with tempfile.TemporaryDirectory(prefix='moodbar-test.') as tmpdir:
+            audiopath = os.path.join(tmpdir, '你好.ogg')
+            create_dummy_audio(audiopath)
+            moodpath = os.path.join(tmpdir, '안녕.mood')
+            call_moodbar(audiopath, moodpath)
 
     def test_colors(self):
         """Test that colors are close enough to the expected ones."""
