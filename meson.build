@@ -2,7 +2,7 @@ project('moodbar', 'cpp',
   version : '1.2.1',
   license : 'GPL-3.0+',
   meson_version : '>=0.35',
-  default_options : 'cpp_std=c++14',
+  default_options : 'cpp_std=c++17',
 )
 
 conf = configuration_data()
