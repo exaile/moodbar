@@ -44,7 +44,7 @@ def create_dummy_audio(path: str) -> None:
     cmd = GST_LAUNCH + [
         'audiotestsrc', 'freq=100', 'num-buffers=100', 'volume=0.4', '!', 'concat', 'name=c',
         '!', 'vorbisenc', 'bitrate=32000', '!', 'oggmux',
-        '!', 'filesink', 'location='+path,
+        '!', 'filesink', 'location='+path.replace('\\', '/'),
         'audiotestsrc', 'freq=2000', 'num-buffers=100', 'volume=0.2', '!', 'c.',
         'audiotestsrc', 'freq=4000', 'num-buffers=100', 'volume=0.1', '!', 'c.',
     ]
