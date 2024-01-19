@@ -19,6 +19,7 @@
 
 import os
 import shlex
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -26,9 +27,20 @@ import unittest
 import numpy as np
 
 
-GST_LAUNCH = shlex.split(os.environ.get('GST_LAUNCH', 'gst-launch-1.0'))
+def get_program_with_default(var: str, default: str) -> list[str]:
+    value = os.environ.get(var)
+    if value:
+        return shlex.split(value)
+    if "/" not in default:
+        value = shutil.which(default)
+        if value:
+            return [value]
+    return [default]
+
+
+GST_LAUNCH = get_program_with_default('GST_LAUNCH', 'gst-launch-1.0')
 MOODBAR_EXE_DEFAULT = './moodbar'
-MOODBAR = shlex.split(os.environ.get('MOODBAR', MOODBAR_EXE_DEFAULT))
+MOODBAR = get_program_with_default('MOODBAR', MOODBAR_EXE_DEFAULT)
 
 
 def create_dummy_audio(path: str) -> None:
