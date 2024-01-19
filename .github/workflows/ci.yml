@@ -1,0 +1,65 @@
+name: CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    # The host can be unreliable, so we use a container.
+    container: ubuntu
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and run tests
+        run: |
+          set -x
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            g++ \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-tools \
+            libfftw3-dev \
+            libgstreamer-plugins-base1.0-dev \
+            libgstreamer1.0-dev \
+            meson \
+            pkgconf \
+            python3 \
+            python3-numpy
+          meson setup build/
+          meson compile -C build/
+          meson test -C build/ -v
+
+  test-windows:
+    strategy:
+      matrix:
+        include:
+          - msystem: ucrt64
+            prefix: mingw-w64-ucrt-x86_64
+            compiler: gcc
+          - msystem: clang64
+            prefix: mingw-w64-clang-x86_64
+            compiler: clang
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          release: false # Use the MSYS2 built into the runner
+          msystem: ${{matrix.msystem}}
+          install: >
+            ${{matrix.prefix}}-${{matrix.compiler}}
+            ${{matrix.prefix}}-fftw
+            ${{matrix.prefix}}-gst-plugins-base
+            ${{matrix.prefix}}-gstreamer
+            ${{matrix.prefix}}-meson
+            ${{matrix.prefix}}-pkgconf
+            ${{matrix.prefix}}-python
+            ${{matrix.prefix}}-python-numpy
+      - uses: actions/checkout@v7
+      - name: Build and run tests
+        run: |
+          set -x
+          meson setup build/
+          meson compile -C build/
+          meson test -C build/ -v
