@@ -51,10 +51,10 @@ def create_dummy_audio(path: str) -> None:
     subprocess.check_call(cmd, stdout=subprocess.DEVNULL)
 
 
-def call_moodbar(inpath: str, outpath: str):
-    cmd = MOODBAR + ['-o', outpath, inpath]
+def call_moodbar(inpath: str, outpath: str | None) -> bytes:
+    cmd = [*MOODBAR, *([] if outpath is None else ['-o', outpath]), inpath]
     try:
-        return subprocess.check_call(cmd)
+        return subprocess.check_output(cmd)
     except FileNotFoundError as e:
         if e.filename == MOODBAR_EXE_DEFAULT:
             raise FileNotFoundError("Could not find moodbar executable. "
@@ -76,6 +76,17 @@ class MoodbarTest(unittest.TestCase):
             create_dummy_audio(audiopath)
             moodpath = os.path.join(tmpdir, '안녕.mood')
             call_moodbar(audiopath, moodpath)
+
+    def test_stdout(self):
+        """Test that the 1-arg (no -o) syntax works."""
+        with tempfile.TemporaryDirectory(prefix='moodbar-test.') as tmpdir:
+            audiopath = os.path.join(tmpdir, 'test.ogg')
+            create_dummy_audio(audiopath)
+            moodpath = os.path.join(tmpdir, 'test.mood')
+            call_moodbar(audiopath, moodpath)
+            output = call_moodbar(audiopath, None)
+            with open(moodpath, 'rb') as f:
+                self.assertEqual(output, f.read())
 
     def test_colors(self):
         """Test that colors are close enough to the expected ones."""
