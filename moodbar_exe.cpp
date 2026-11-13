@@ -51,7 +51,8 @@ void printUsage(std::ostream &stream, const char *exe) {
 } // namespace
 
 int main(int argc, char *argv[]) {
-  bool isCorrectUsage = false;
+  const char *argIn, *argOut;
+
   if (argc == 2) {
     std::string argv1 = argv[1];
     if (argv1 == "--version") {
@@ -60,17 +61,17 @@ int main(int argc, char *argv[]) {
     } else if (argv1 == "--help") {
       printUsage(std::cout, argv[0]);
       return 0;
+    } else {
+      argIn = argv[1];
+      argOut = nullptr;
     }
   } else if (argc == 4 and argv[1] == "-o"s) {
-    isCorrectUsage = true;
-  }
-  if (not isCorrectUsage) {
+    argIn = argv[3];
+    argOut = argv[2];
+  } else {
     printUsage(std::cerr, (argc > 0 ? argv[0] : "moodbar"));
     return 1;
   }
-
-  const char *argOut = argv[2];
-  const char *argIn = argv[3];
 
   // Process input file
 
@@ -92,6 +93,12 @@ int main(int argc, char *argv[]) {
     return 1; // There should already be an error message.
 
   // Write output file
+
+  if (not argOut) {
+    const auto &data = mood.data();
+    std::cout.write(reinterpret_cast<const char *>(data.data()), data.size());
+    return 0;
+  }
 
   GFileH fileOut{g_file_new_for_commandline_arg(argOut), &g_object_unref};
   GFileOutputStreamH streamOut{g_file_replace(fileOut.get(), nullptr, FALSE,
