@@ -33,6 +33,7 @@
 #include <string>
 
 #ifdef _WIN32
+#include <algorithm>
 #include <vector>
 #endif
 
