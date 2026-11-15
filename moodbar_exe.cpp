@@ -24,6 +24,10 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+#include <fcntl.h> // For _O_BINARY
+#include <io.h>    // For _setmode
+#include <stdio.h> // For _fileno, stdout
 #endif
 
 #include <future>
@@ -97,6 +101,9 @@ int main(int argc, char *argv[]) {
 
   if (not argOut) {
     const auto &data = mood.data();
+#ifdef _WIN32
+    _setmode(_fileno(stdout), _O_BINARY);
+#endif
     std::cout.write(reinterpret_cast<const char *>(data.data()), data.size());
     return 0;
   }
