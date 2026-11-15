@@ -91,12 +91,12 @@ void MoodbarBuilder::Normalize(std::vector<Rgb>* vals, double Rgb::*member) {
   }
 
   double avg = 0;
-  int t = 0;
+  // int t = 0;
   for (const Rgb& rgb : *vals) {
     const double value = rgb.*member;
     if (value != mini && value != maxi) {
       avg += value / vals->size();
-      t++;
+      // t++;
     }
   }
 
